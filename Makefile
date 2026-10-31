@@ -11,21 +11,23 @@ SVF_FILE    = $(SYNTH_DIR)/reports/default.svf
 # ==========================================================
 # Arquivos RTL e Pacotes (Ordem estrita de dependência)
 # ==========================================================
-PKG_FILES = $(RTL_DIR)/aes_pkg.sv
+PKG_FILES =
 
 RTL_FILES = \
-    $(RTL_DIR)/aes_top.sv
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_sbox.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_sub_bytes.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_shift_rows.sv
 
 # ==========================================================
 # Arquivos de Testbench
 # ==========================================================
 TB_FILES = \
-    $(TB_DIR)/tb_aes_top.sv
+    $(TB_DIR)/minisoc_aes_sub_shift_tb.sv
 
 # ==========================================================
 # Top do testbench
 # ==========================================================
-TOP = tb_aes_top
+TOP = minisoc_aes_sub_shift_tb
 
 # ==========================================================
 # Flags de Compilação e Simulação (Fluxo Unificado)
@@ -40,6 +42,17 @@ VCS_FLAGS = -full64 \
             -ntb_opts uvm \
             +lint=all,noWMIA-L,noNS \
 			-debug_all
+
+LINT_FLAGS = -full64 \
+             -sverilog \
+             +lint=all,noWMIA-L,noNS \
+             -o simv_lint
+
+# ==========================================================
+# Lint (somente RTL, sem testbench)
+# ==========================================================
+lint:
+	vcs $(LINT_FLAGS) $(PKG_FILES) $(RTL_FILES) -l lint.log
 
 # ==========================================================
 # Compilação / Elaboração Unificada (Gera o executável simv)
@@ -140,4 +153,4 @@ clean_fm:
 # ==========================================================
 clean: clean_sim clean_synth clean_fm
 
-.PHONY: compile run wave synth fm_gen formality clean clean_sim clean_synth clean_fm
+.PHONY: lint compile run wave synth fm_gen formality clean clean_sim clean_synth clean_fm

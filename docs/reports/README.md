@@ -1,16 +1,12 @@
 # Relatórios semanais
 
-Cada semana tem seu próprio diretório dentro de `reports/`, contendo um `README.md` com o relatório e os arquivos de referência usados naquela semana.
+Cada semana tem um relatório em `reports/semana_XX.md`, com o que foi feito, os resultados obtidos, os problemas encontrados e os próximos passos.
 
 ```
 reports/
-├── semana01/
-│ ├── README.md
-│ └── ...arquivos de referência
-├── semana02/
-│ ├── README.md
-│ └── ...
+├── semana_01.md
+├── semana_02.md
 └── ...
 ```
 
-Use numeração com dois dígitos (`semana01`, `semana02`, ...) para manter a ordenação correta.
+Use numeração com dois dígitos (`semana_01`, `semana_02`, ...) para manter a ordenação correta. Documentos de referência usados nos relatórios ficam em [`docs/spec/`](../spec).

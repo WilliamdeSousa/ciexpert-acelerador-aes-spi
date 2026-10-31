@@ -53,3 +53,4 @@ Requer as ferramentas da Synopsys (VCS, Verdi, Design Compiler e Formality).
 | Semana | Tema |
 |---|---|
 | [01](docs/reports/semana_01.md) | Estudo do AES (FIPS-197) e do SPI |
+| [02](docs/reports/semana_02.md) | Desafio SubBytes e ShiftRows |

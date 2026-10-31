@@ -1,7 +1,7 @@
 # Relatório de Estudo — Semana 01: AES (FIPS-197) e SPI
 
 > Referências:
-> - [FIPS PUB 197, *Advanced Encryption Standard (AES)*, NIST, 2001](<FIPS 197, Advanced Encryption Standard (AES) - nist.fips.197.pdf>). Essa versão foi substituída pela **FIPS 197-upd1 (2023)**, que tem apenas mudanças editoriais. O algoritmo é o mesmo.
+> - [FIPS PUB 197, *Advanced Encryption Standard (AES)*, NIST, 2001](<../spec/FIPS 197, Advanced Encryption Standard (AES) - nist.fips.197.pdf>). Essa versão foi substituída pela **FIPS 197-upd1 (2023)**, que tem apenas mudanças editoriais. O algoritmo é o mesmo.
 > - [P. Dhaker, *Introduction to SPI Interface*, Analog Dialogue, Analog Devices, 2018](https://www.analog.com/en/resources/analog-dialogue/articles/introduction-to-spi-interface.html).
 
 ## Parte I — AES (FIPS-197)

@@ -15,19 +15,26 @@ PKG_FILES =
 
 RTL_FILES = \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_sbox.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_sbox.sv \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_sub_bytes.sv \
-    $(RTL_DIR)/minisoc_aes/minisoc_aes_shift_rows.sv
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_sub_bytes.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_shift_rows.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_shift_rows.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_mix_columns.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_mix_columns.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_add_round_key.sv
 
 # ==========================================================
 # Arquivos de Testbench
 # ==========================================================
 TB_FILES = \
-    $(TB_DIR)/minisoc_aes_sub_shift_tb.sv
+    $(TB_DIR)/minisoc_aes_sub_shift_tb.sv \
+    $(TB_DIR)/minisoc_aes_round_tb.sv
 
 # ==========================================================
-# Top do testbench
+# Top do testbench (outro top: make run TOP=minisoc_aes_sub_shift_tb)
 # ==========================================================
-TOP = minisoc_aes_sub_shift_tb
+TOP ?= minisoc_aes_round_tb
 
 # ==========================================================
 # Flags de Compilação e Simulação (Fluxo Unificado)

@@ -97,7 +97,7 @@ O critério de aceite da semana (testbench executado por um único comando, com 
 
 ## 5. Dúvidas sobre o Block Guide
 
-<!-- TODO: preencher após a leitura das seções 1 a 3 e 8. -->
+- Na [Figura 1](../architecture/rsc/architecture.png), a seta entre o AES e o Mem Mux aparece apenas no sentido AES → memória (escrita). Como o AES também lê os blocos da memória (seção 8.3), por onde o dado lido retorna ao AES?
 
 ## 6. Próximos passos (semana 3, entrega 06/11)
 

@@ -22,19 +22,22 @@ RTL_FILES = \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_shift_rows.sv \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_mix_columns.sv \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_inv_mix_columns.sv \
-    $(RTL_DIR)/minisoc_aes/minisoc_aes_add_round_key.sv
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_add_round_key.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_key_exp.sv \
+    $(RTL_DIR)/minisoc_aes/minisoc_aes_dp.sv
 
 # ==========================================================
 # Arquivos de Testbench
 # ==========================================================
 TB_FILES = \
     $(TB_DIR)/minisoc_aes_sub_shift_tb.sv \
-    $(TB_DIR)/minisoc_aes_round_tb.sv
+    $(TB_DIR)/minisoc_aes_round_tb.sv \
+    $(TB_DIR)/minisoc_aes_dp_tb.sv
 
 # ==========================================================
-# Top do testbench (outro top: make run TOP=minisoc_aes_sub_shift_tb)
+# Top do testbench (outros: make run TOP=minisoc_aes_round_tb)
 # ==========================================================
-TOP ?= minisoc_aes_round_tb
+TOP ?= minisoc_aes_dp_tb
 
 # ==========================================================
 # Flags de Compilação e Simulação (Fluxo Unificado)

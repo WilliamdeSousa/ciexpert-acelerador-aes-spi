@@ -20,7 +20,7 @@ O Block Guide fixa as interfaces de topo, os módulos, o mapa de registradores e
 flowchart LR
     subgraph SCLK["domínio spi_sclk"]
         RX["shift reg RX<br/>40 bits"]
-        TX["shift reg TX<br/>32 bits"]
+        TX["seleção do bit MISO<br/>(contador de bits)"]
     end
 
     subgraph CLK["domínio clk (2 GHz, always-on)"]
@@ -76,7 +76,7 @@ O dado lido da memória (`rdata`) vai ao mesmo tempo para a interface externa e 
 
 - **Recepção (domínio `spi_sclk`):** um registrador de deslocamento de 40 bits amostra `spi_mosi` na borda de subida (Mode 0, MSB-first). Um contador de bits é zerado com `spi_cs_n = 1`. Ao 40º bit, o frame é copiado para um registrador de retenção e um bit de toggle é invertido.
 - **Decodificação (domínio `clk`):** o toggle passa por um sincronizador de 2 flip-flops. Uma mudança no bit sincronizado gera um pulso de 1 ciclo, que captura o registrador de retenção. Ele está estável, porque só muda depois de mais 40 bordas de `spi_sclk`. O campo `RWb` decide entre escrita no registrador `ADDR` e pedido de leitura.
-- **Leitura:** o pedido de leitura (1ª transação) guarda o dado do registrador `ADDR` num registrador de saída. Na 2ª transação, endereçada ao NOP, esse valor é carregado no registrador de deslocamento TX na descida de `spi_cs_n` e deslocado em `spi_miso` na borda de descida de `spi_sclk`. Entre as duas transações há tempo de sobra para o dado se estabilizar.
+- **Leitura:** o pedido de leitura (1ª transação) guarda o dado do registrador `ADDR` num registrador de saída (`rdata_q`, domínio `clk`). Na 2ª transação, endereçada ao NOP, a resposta ocupa a posição do campo DATA: os bits 39 a 32 saem em 0 e os bits 31 a 0 trazem `rdata_q`. Cada bit é escolhido pelo contador de bits e atualizado em `spi_miso` na borda de descida de `spi_sclk`. Como o primeiro bit é 0, ele já é válido na descida de `spi_cs_n`, sem precisar de uma borda de clock. `rdata_q` só muda ao fim de um pedido de leitura, então fica estável durante a 2ª transação.
 - **START:** a escrita de `START = 1` em AES_CONTROL inverte um bit de toggle, que cruza para o `sys_clk` (seção 7).
 
 ## 5. Engine AES

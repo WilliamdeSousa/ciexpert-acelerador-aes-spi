@@ -25,7 +25,8 @@ RTL_FILES = \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_add_round_key.sv \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_key_exp.sv \
     $(RTL_DIR)/minisoc_aes/minisoc_aes_dp.sv \
-    $(RTL_DIR)/minisoc_spi/minisoc_spi.sv
+    $(RTL_DIR)/minisoc_spi/minisoc_spi.sv \
+    $(RTL_DIR)/minisoc_pll/minisoc_pll_mock.sv
 
 # ==========================================================
 # Arquivos de Testbench

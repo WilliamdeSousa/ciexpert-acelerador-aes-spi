@@ -57,3 +57,4 @@ Requer as ferramentas da Synopsys (VCS, Verdi, Design Compiler e Formality).
 | [03](docs/reports/semana_03.md) | Microarquitetura e transformações de rodada |
 | [04](docs/reports/semana_04.md) | Expansão de chave e datapath AES-128 |
 | [05](docs/reports/semana_05.md) | SPI front-end e PLL mock |
+| [06](docs/reports/semana_06.md) | AES engine e memória compartilhada |

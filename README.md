@@ -56,3 +56,4 @@ Requer as ferramentas da Synopsys (VCS, Verdi, Design Compiler e Formality).
 | [02](docs/reports/semana_02.md) | Desafio SubBytes e ShiftRows |
 | [03](docs/reports/semana_03.md) | Microarquitetura e transformações de rodada |
 | [04](docs/reports/semana_04.md) | Expansão de chave e datapath AES-128 |
+| [05](docs/reports/semana_05.md) | SPI front-end e PLL mock |

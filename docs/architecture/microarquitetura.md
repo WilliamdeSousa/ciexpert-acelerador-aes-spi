@@ -151,30 +151,31 @@ O sentido do primitivo (`i_decrypt` do `dp`) vale `DECRYPT && (MODE ∈ {ECB, CB
 stateDiagram-v2
     [*] --> IDLE
     IDLE --> CHECK: START sincronizado
-    CHECK --> ERROR: config inválida
-    CHECK --> KEY_EXP: ok
-    KEY_EXP --> READ: chave pronta
+    CHECK --> IDLE: config inválida (ERROR, DONE)
+    CHECK --> KEY: ok
+    KEY --> READ: chave pronta
     READ --> CIPHER: 4 palavras lidas
-    CIPHER --> WRITE: dp done
+    CIPHER --> WAIT: dp iniciado
+    WAIT --> WRITE: dp done
     WRITE --> READ: há mais blocos
-    WRITE --> DONE: último bloco
-    ERROR --> DONE
-    DONE --> CHECK: novo START
+    WRITE --> IDLE: último bloco (DONE)
 ```
 
 | Estado | Ação | Saída |
 |---|---|---|
-| IDLE | espera o START sincronizado; captura KEY, IV, COUNTER, MODE, DECRYPT e NUM_BLOCKS | — |
-| CHECK | valida `1 ≤ NUM_BLOCKS ≤ 256` e `MODE ≤ 3'b101` | inválido → ERROR |
-| KEY_EXP | espera os 10 ciclos da expansão de chave | → READ |
-| READ | lê as 4 palavras do bloco `i` (endereços `4i` a `4i+3`) e monta `in` | → CIPHER |
-| CIPHER | aplica a entrada do modo, dispara o `dp` e espera `o_done` | → WRITE |
-| WRITE | calcula `out`, escreve as 4 palavras no mesmo endereço, atualiza `chain_q`/`ctr` e incrementa BLOCKS_DONE | mais blocos → READ; senão → DONE |
-| ERROR | levanta ERROR e DONE, sem processar blocos | → DONE |
-| DONE | DONE sticky até um novo START aceito | novo START → CHECK |
+| IDLE | espera o START sincronizado; ao aceitar, captura KEY, IV, COUNTER, MODE, DECRYPT e NUM_BLOCKS e limpa DONE, ERROR e BLOCKS_DONE | → CHECK |
+| CHECK | valida `1 ≤ NUM_BLOCKS ≤ 256` e MODE; dispara o `key_exp` e carrega `chain_q` com o IV | inválido → IDLE com ERROR e DONE |
+| KEY | espera os 10 ciclos da expansão de chave | → READ |
+| READ | lê as 4 palavras do bloco `i` (endereços `4i` a `4i+3`) e monta `in` (5 ciclos: o dado sai 1 ciclo depois do endereço) | → CIPHER |
+| CIPHER | aplica a entrada do modo e dá `start` no `dp` (1 ciclo) | → WAIT |
+| WAIT | espera `o_done` do `dp`; calcula `out`, atualiza `chain_q` e o contador | → WRITE |
+| WRITE | escreve as 4 palavras no mesmo endereço e incrementa BLOCKS_DONE | mais blocos → READ; senão → IDLE com DONE |
 
-- **BUSY** fica em 1 em CHECK, KEY_EXP, READ, CIPHER e WRITE.
-- **Latência estimada por bloco:** cerca de 21 ciclos de `sys_clk` (5 de leitura, com memória síncrona de 1 ciclo, mais 11 de rodadas, 4 de escrita e 1 de transição). Mais 10 ciclos de expansão de chave por operação.
+- DONE e ERROR são registradores próprios, e não estados: ficam em 1 em IDLE até um novo START aceito. Um START durante uma operação é ignorado.
+- **BUSY** fica em 1 de CHECK até o fim do último WRITE.
+- **BLOCKS_DONE** é mantido também num registrador em Gray, atualizado na mesma borda que o contador binário e que o DONE.
+- **Latência por bloco:** 21 ciclos de `sys_clk` (5 de leitura, 1 de início, 11 do `dp` e 4 de escrita), mais 10 ciclos de expansão de chave e 2 de CHECK por operação.
+- **v1.0:** PCBC, CFB e OFB ainda não estão implementados e são rejeitados com ERROR (semana 10).
 
 ## 6. Memória e arbitragem
 

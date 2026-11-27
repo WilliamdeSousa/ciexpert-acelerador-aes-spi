@@ -34,12 +34,13 @@ RTL_FILES = \
 TB_FILES = \
     $(TB_DIR)/minisoc_aes_sub_shift_tb.sv \
     $(TB_DIR)/minisoc_aes_round_tb.sv \
-    $(TB_DIR)/minisoc_aes_dp_tb.sv
+    $(TB_DIR)/minisoc_aes_dp_tb.sv \
+    $(TB_DIR)/minisoc_spi_pll_tb.sv
 
 # ==========================================================
-# Top do testbench (outros: make run TOP=minisoc_aes_round_tb)
+# Top do testbench (outros: make run TOP=minisoc_aes_dp_tb)
 # ==========================================================
-TOP ?= minisoc_aes_dp_tb
+TOP ?= minisoc_spi_pll_tb
 
 # ==========================================================
 # Flags de Compilação e Simulação (Fluxo Unificado)
